@@ -77,8 +77,13 @@ export default class Column {
     return Wrapper;
   }
 
+  /**
+   * Create left or right column
+   * @return {HTMLElement}
+   * @private
+   */
   drawColumn() {
-    const Wrapper = this._make("DIV", [this.CSS.column], {});
+    const Wrapper = this._make("DIV", [this.CSS.column]);
     const Head = this._make("DIV", [this.CSS.columnHead]);
     const Spot = this._make("DIV", [this.CSS.columnSpot]);
     const Title = this._make("DIV", [this.CSS.columnTitle], {
