@@ -55,3 +55,47 @@
   color: grey;
   font-style: italic;
 }
+
+.cdx-color-selector {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100px;
+  height: 30px;
+}
+
+.cdx-color-selector-dot {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  transition: all .2s;
+}
+
+.cdx-color-selector-dot--active {
+  position: absolute;
+  top: 5px;
+  width: 4px;
+  height: 4px;
+  background: white;
+}
+
+.cdx-color-selector-dot:hover {
+  cursor: pointer !important;
+}
+
+.cdx-color-selector-dot--primary {
+  background-color: #5049BA;
+}
+
+.cdx-color-selector-dot--red {
+  background-color: tomato;
+}
+
+.cdx-color-selector-dot--warning {
+  background-color: orange;
+}
+
+.cdx-color-selector-dot--green {
+  background-color: yellowgreen;
+}

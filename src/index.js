@@ -3,6 +3,9 @@ import { make } from '@groupher/editor-utils'
  * Build styles
  */
 import css from "./index.css";
+import tippy, { hideAll } from 'tippy.js'
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light.css';
 
 /**
  * Column Block for the Editor.js.
@@ -108,8 +111,7 @@ export default class Column {
     });
 
     const Body = make("DIV", [this.CSS.columnBody], {
-      // innerText:
-      //   "版权归作者所有，任何形式转载请联系作者。 作者：苏台栖乌（来自豆瓣） ，填补各类景区攻略信息的漏缺，以便参考者合理规划行程。具体赏析文物古迹的部分，建议翻看专著或其他帖子",
+      // innerText: "",
       placeholder: "输入内容 ...",
       contentEditable: true
     });
@@ -120,7 +122,42 @@ export default class Column {
     Wrapper.appendChild(Head);
     Wrapper.appendChild(Body);
 
+    this.api.listeners.on(Spot, 'click', () => {
+      console.log('Button clicked tippy ! ');
+      tippy(Spot, this.drawSpotSelector())
+      // this.api.tooltip.show(Spot, this.drawSpotSelector(), {});
+    }, false);
+
     return Wrapper;
+  }
+
+  drawSpotSelector() {
+    const Wrapper = make('div', ["cdx-color-selector"])
+    const Dot = make('div', ["cdx-color-selector-dot", "cdx-color-selector-dot--primary"])
+    const Dot2 = make('div', ["cdx-color-selector-dot", "cdx-color-selector-dot--red"])
+    const Dot3 = make('div', ["cdx-color-selector-dot", "cdx-color-selector-dot--warning"])
+    const Dot4 = make('div', ["cdx-color-selector-dot", "cdx-color-selector-dot--green"])
+
+    this.api.listeners.on(Dot, 'click', () => {
+      console.log('spot clicked!');
+      // this.api.tooltip.show(Spot, this.drawSpotSelector(), {});
+    }, false);
+
+    Wrapper.appendChild(Dot)
+    Wrapper.appendChild(Dot2)
+    Wrapper.appendChild(Dot3)
+    Wrapper.appendChild(Dot4)
+  
+    return {
+      content: Wrapper,
+      theme: 'light',
+      // delay: 200,
+      trigger: "click",
+      placement: 'bottom',
+      // allowing you to hover over and click inside them.
+      interactive: true,
+    }
+    // return Wrapper
   }
 
   /**
