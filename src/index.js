@@ -7,6 +7,8 @@ import tippy, { hideAll } from 'tippy.js'
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
 
+import CheckIcon from './icon/check.svg'
+
 /**
  * Column Block for the Editor.js.
  *
@@ -62,7 +64,15 @@ export default class Column {
       columnHead: "cdx-column-head",
       columnSpot: "cdx-column-spot",
       columnTitle: "cdx-column-title",
-      columnBody: "cdx-column-body"
+      columnBody: "cdx-column-body",
+      // dots
+      selector: "cdx-color-selector",
+      selectDot: "cdx-color-selector-dot",
+      primaryDot: "cdx-color-selector-dot--primary",
+      redDot: "cdx-color-selector-dot--red",
+      warningDot: "cdx-color-selector-dot--warning",
+      greenDot: "cdx-color-selector-dot--green",
+      activeDot: "cdx-color-selector-dot--active",
     };
 
     this.data = {
@@ -73,7 +83,7 @@ export default class Column {
     this.TitleInput = null;
     this.CollapseContent = null;
 
-    this._element = this.drawView();
+    this.element = this.drawView();
     this.data = data;
   }
 
@@ -84,15 +94,17 @@ export default class Column {
    */
   drawView() {
     const Wrapper = make("DIV", [this.CSS.block, this.CSS.wrapper], {});
-    const InnerWrapper = make("DIV", [this.CSS.innerWrapper], {
-      // innerHTML: this.drawColumn()
-    });
+    const InnerWrapper = make("DIV", [this.CSS.innerWrapper]);
 
     InnerWrapper.appendChild(this.drawColumn());
     InnerWrapper.appendChild(this.drawColumn());
     Wrapper.appendChild(InnerWrapper);
 
     return Wrapper;
+  }
+
+  reDrawView() {
+    this.element = this.drawView()
   }
 
   /**
@@ -132,21 +144,27 @@ export default class Column {
   }
 
   drawSpotSelector() {
-    const Wrapper = make('div', ["cdx-color-selector"])
-    const Dot = make('div', ["cdx-color-selector-dot", "cdx-color-selector-dot--primary"])
-    const Dot2 = make('div', ["cdx-color-selector-dot", "cdx-color-selector-dot--red"])
-    const Dot3 = make('div', ["cdx-color-selector-dot", "cdx-color-selector-dot--warning"])
-    const Dot4 = make('div', ["cdx-color-selector-dot", "cdx-color-selector-dot--green"])
+    const Wrapper = make('div', [this.CSS.selector])
+    const Dot = make('div', [this.CSS.selectDot, this.CSS.primaryDot])
+    const RedDot = make('div', [this.CSS.selectDot, this.CSS.redDot])
+    const WarningDot = make('div', [this.CSS.selectDot, this.CSS.warningDot])
+    const GreenDot = make('div', [this.CSS.selectDot, this.CSS.greenDot])
+
+    const AcitiveSign = make('div', [this.CSS.activeDot], {
+      innerHTML: CheckIcon
+    })
 
     this.api.listeners.on(Dot, 'click', () => {
-      console.log('spot clicked!');
+      console.log('spot clicked redraw!');
       // this.api.tooltip.show(Spot, this.drawSpotSelector(), {});
     }, false);
 
     Wrapper.appendChild(Dot)
-    Wrapper.appendChild(Dot2)
-    Wrapper.appendChild(Dot3)
-    Wrapper.appendChild(Dot4)
+    Dot.appendChild(AcitiveSign)
+    
+    Wrapper.appendChild(RedDot)
+    Wrapper.appendChild(WarningDot)
+    Wrapper.appendChild(GreenDot)
   
     return {
       content: Wrapper,
@@ -166,7 +184,7 @@ export default class Column {
    * @public
    */
   render() {
-    return this._element;
+    return this.element;
   }
 
   /**
