@@ -14,6 +14,13 @@ import signal from './icon/signal.svg'
 import tag from './icon/tag.svg'
 import tuning from './icon/tuning.svg'
 
+import faq from './icon/faq.svg'
+import flag from './icon/flag.svg'
+import tool from './icon/tool.svg'
+import card from './icon/card.svg'
+import search from './icon/search.svg'
+import users from './icon/users.svg'
+import cloud from './icon/cloud.svg'
 
 export default [{
     name: 'explore',
@@ -51,5 +58,26 @@ export default [{
   }, {
     name: 'tuning',
     icon: tuning,
+  }, {
+    name: 'faq',
+    icon: faq,
+  }, {
+    name: 'flag',
+    icon: flag,
+  }, {
+    name: 'tool',
+    icon: tool,
+  }, {
+    name: 'card',
+    icon: card,
+  }, {
+    name: 'search',
+    icon: search,
+  }, {
+    name: 'users',
+    icon: users,
+  }, {
+    name: 'cloud',
+    icon: cloud,
   },
 ]
