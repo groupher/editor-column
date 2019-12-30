@@ -7,7 +7,8 @@ import tippy, { hideAll } from 'tippy.js'
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
 
-import CheckIcon from './icon/check.svg'
+import Icons from './iconIndex'
+
 
 /**
  * Column Block for the Editor.js.
@@ -28,6 +29,15 @@ export default class Column {
    * @return {boolean}
    */
   static get contentless() {
+    return true;
+  }
+
+  /**
+   * Allow to press Enter inside the plugin
+   * @public
+   * @returns {boolean}
+   */
+  static get enableLineBreaks() {
     return true;
   }
 
@@ -68,10 +78,6 @@ export default class Column {
       // dots
       selector: "cdx-color-selector",
       selectDot: "cdx-color-selector-dot",
-      primaryDot: "cdx-color-selector-dot--primary",
-      redDot: "cdx-color-selector-dot--red",
-      warningDot: "cdx-color-selector-dot--warning",
-      greenDot: "cdx-color-selector-dot--green",
       activeDot: "cdx-color-selector-dot--active",
     };
 
@@ -96,8 +102,12 @@ export default class Column {
     const Wrapper = make("DIV", [this.CSS.block, this.CSS.wrapper], {});
     const InnerWrapper = make("DIV", [this.CSS.innerWrapper]);
 
-    InnerWrapper.appendChild(this.drawColumn());
-    InnerWrapper.appendChild(this.drawColumn());
+    this.ColumnLeft = this.drawColumn('left')
+    this.ColumnRight = this.drawColumn('right')
+
+    InnerWrapper.appendChild(this.ColumnLeft);
+    InnerWrapper.appendChild(this.ColumnRight);
+
     Wrapper.appendChild(InnerWrapper);
 
     return Wrapper;
@@ -112,18 +122,20 @@ export default class Column {
    * @return {HTMLElement}
    * @private
    */
-  drawColumn() {
+  drawColumn(part) {
     const Wrapper = make("DIV", [this.CSS.column]);
     const Head = make("DIV", [this.CSS.columnHead]);
-    const Spot = make("DIV", [this.CSS.columnSpot]);
+
+    const ActiveIcon = Icons[0]
+    const Spot = make("DIV", [this.CSS.columnSpot], {
+      innerHTML: ActiveIcon.icon
+    });
     const Title = make("DIV", [this.CSS.columnTitle], {
-      // innerText: "配置选项是 FAQ",
       contentEditable: true,
       placeholder: "输入标题 ..."
     });
 
     const Body = make("DIV", [this.CSS.columnBody], {
-      // innerText: "",
       placeholder: "输入内容 ...",
       contentEditable: true
     });
@@ -135,36 +147,49 @@ export default class Column {
     Wrapper.appendChild(Body);
 
     this.api.listeners.on(Spot, 'click', () => {
-      console.log('Button clicked tippy ! ');
-      tippy(Spot, this.drawSpotSelector())
-      // this.api.tooltip.show(Spot, this.drawSpotSelector(), {});
+      tippy(Spot, this.drawSpotSelector(part, ActiveIcon))
     }, false);
 
     return Wrapper;
   }
 
-  drawSpotSelector() {
+  /**
+   * spot icon selector panel
+   * @param {string} part - 'left' or 'right'
+   * @param {object} activeIcon - current used icon in column
+   * @param {string} activeIcon.name - icon name
+   * @param {string} activeIcon.icon - icon svg content
+   * @return {HTMLElement}
+   * @private
+   */
+  drawSpotSelector(part, activeIcon) {
     const Wrapper = make('div', [this.CSS.selector])
-    const Dot = make('div', [this.CSS.selectDot, this.CSS.primaryDot])
-    const RedDot = make('div', [this.CSS.selectDot, this.CSS.redDot])
-    const WarningDot = make('div', [this.CSS.selectDot, this.CSS.warningDot])
-    const GreenDot = make('div', [this.CSS.selectDot, this.CSS.greenDot])
 
-    const AcitiveSign = make('div', [this.CSS.activeDot], {
-      innerHTML: CheckIcon
+    Icons.forEach(iconItem => { 
+      const Dot = make('div', [this.CSS.selectDot], {
+        innerHTML: iconItem.icon
+      })
+
+      Wrapper.appendChild(Dot)
+
+      if (activeIcon.name === iconItem.name) {
+        Dot.classList.add(this.CSS.activeDot)
+      }
+
+      this.api.listeners.on(Dot, 'click', () => {
+        Wrapper.childNodes.forEach(item => {
+          item.classList.remove(this.CSS.activeDot)
+        })
+
+        const Column = part === 'left' ? this.ColumnLeft: this.ColumnRight
+
+        // console.log("ColumnLeft: ", this.ColumnRight)
+        const ColumnIcon = Column.getElementsByClassName(this.CSS.columnSpot) 
+        ColumnIcon[0].innerHTML = Dot.innerHTML
+
+        Dot.classList.add(this.CSS.activeDot)
+      }, false);
     })
-
-    this.api.listeners.on(Dot, 'click', () => {
-      console.log('spot clicked redraw!');
-      // this.api.tooltip.show(Spot, this.drawSpotSelector(), {});
-    }, false);
-
-    Wrapper.appendChild(Dot)
-    Dot.appendChild(AcitiveSign)
-    
-    Wrapper.appendChild(RedDot)
-    Wrapper.appendChild(WarningDot)
-    Wrapper.appendChild(GreenDot)
   
     return {
       content: Wrapper,
@@ -175,7 +200,6 @@ export default class Column {
       // allowing you to hover over and click inside them.
       interactive: true,
     }
-    // return Wrapper
   }
 
   /**
