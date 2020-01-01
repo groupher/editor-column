@@ -80,21 +80,18 @@ export default class Column {
       activeDot: "cdx-color-selector-dot--active"
     };
 
-    const defaultData = [
-      {
-        type: "tel",
-        title: "我的联系方式",
-        content: "我的联系方式有哪些呢"
-      },
-      {
-        type: "tool",
-        title: "设置方式",
-        content: "主要有以下一些设置方式"
-      }
-    ];
+    const defaultColumnData = {
+      type: "flag",
+      title: "",
+      content: ""
+    };
 
-    // TODO:  可能只有一列
-    this.data = defaultData;
+    this.data = data;
+
+    // NOTE:  maybe only one column
+    if (!this.data[1]) {
+      this.data[1] = defaultColumnData;
+    }
 
     this.TitleInput = null;
     this.CollapseContent = null;

@@ -29,7 +29,7 @@
   width: 25px;
   height: 25px;
   border-radius: 5px;
-  background-image: linear-gradient(#75979c,#507479);
+  background-image: linear-gradient(#75979c, #507479);
   margin-right: 12px;
   cursor: pointer;
 }
@@ -55,7 +55,7 @@
 .cdx-column-body {
   font-size: 14px;
   color: #a9adb5;
-  padding-left: 35px;
+  padding-left: 36px;
 }
 
 .cdx-column-title[placeholder]:empty:before,
@@ -82,7 +82,7 @@
   position: relative;
   width: 22px;
   height: 22px;
-  transition: all .2s;
+  transition: all 0.2s;
   margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 10px;
@@ -99,15 +99,15 @@
 }
 
 .cdx-color-selector-dot--active {
-  background-image: linear-gradient(#75979c,#507479);
+  background-image: linear-gradient(#75979c, #507479);
   border-radius: 5px;
 }
 
 .cdx-color-selector-dot--active:hover {
-  background-image: linear-gradient(#75979c,#507479);
+  background-image: linear-gradient(#75979c, #507479);
 }
 
-.cdx-color-selector-dot--active svg{
+.cdx-color-selector-dot--active svg {
   fill: white;
   width: 16px;
   height: 16px;
@@ -116,4 +116,3 @@
 .cdx-color-selector-dot:hover {
   cursor: pointer !important;
 }
-
