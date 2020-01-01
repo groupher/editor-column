@@ -1,14 +1,13 @@
-import { make } from '@groupher/editor-utils'
+import { make } from "@groupher/editor-utils";
 /**
  * Build styles
  */
 import css from "./index.css";
-import tippy, { hideAll } from 'tippy.js'
-import 'tippy.js/dist/tippy.css';
-import 'tippy.js/themes/light.css';
+import tippy, { hideAll } from "tippy.js";
+import "tippy.js/dist/tippy.css";
+import "tippy.js/themes/light.css";
 
-import Icons from './iconIndex'
-
+import { Icons, findIcon } from "./iconIndex";
 
 /**
  * Column Block for the Editor.js.
@@ -78,19 +77,29 @@ export default class Column {
       // dots
       selector: "cdx-color-selector",
       selectDot: "cdx-color-selector-dot",
-      activeDot: "cdx-color-selector-dot--active",
+      activeDot: "cdx-color-selector-dot--active"
     };
 
-    this.data = {
-      title: data.title || "",
-      content: data.content || ""
-    };
+    const defaultData = [
+      {
+        type: "tel",
+        title: "我的联系方式",
+        content: "我的联系方式有哪些呢"
+      },
+      {
+        type: "tool",
+        title: "设置方式",
+        content: "主要有以下一些设置方式"
+      }
+    ];
+
+    // TODO:  可能只有一列
+    this.data = defaultData;
 
     this.TitleInput = null;
     this.CollapseContent = null;
 
     this.element = this.drawView();
-    this.data = data;
   }
 
   /**
@@ -102,8 +111,8 @@ export default class Column {
     const Wrapper = make("DIV", [this.CSS.block, this.CSS.wrapper], {});
     const InnerWrapper = make("DIV", [this.CSS.innerWrapper]);
 
-    this.ColumnLeft = this.drawColumn('left')
-    this.ColumnRight = this.drawColumn('right')
+    this.ColumnLeft = this.drawColumn("left");
+    this.ColumnRight = this.drawColumn("right");
 
     InnerWrapper.appendChild(this.ColumnLeft);
     InnerWrapper.appendChild(this.ColumnRight);
@@ -111,10 +120,6 @@ export default class Column {
     Wrapper.appendChild(InnerWrapper);
 
     return Wrapper;
-  }
-
-  reDrawView() {
-    this.element = this.drawView()
   }
 
   /**
@@ -125,19 +130,24 @@ export default class Column {
   drawColumn(part) {
     const Wrapper = make("DIV", [this.CSS.column]);
     const Head = make("DIV", [this.CSS.columnHead]);
+    const dataIndex = part === "left" ? 0 : 1;
 
-    const ActiveIcon = Icons[0]
+    // console.log("find icon: ", findIcon(this.data[dataIndex].type));
+    const ActiveIcon = findIcon(this.data[dataIndex].type);
+
     const Spot = make("DIV", [this.CSS.columnSpot], {
       innerHTML: ActiveIcon.icon
     });
     const Title = make("DIV", [this.CSS.columnTitle], {
       contentEditable: true,
-      placeholder: "输入标题 ..."
+      placeholder: "输入标题 ...",
+      innerHTML: this.data[dataIndex].title
     });
 
     const Body = make("DIV", [this.CSS.columnBody], {
+      contentEditable: true,
       placeholder: "输入内容 ...",
-      contentEditable: true
+      innerHTML: this.data[dataIndex].content
     });
 
     Head.appendChild(Spot);
@@ -146,9 +156,22 @@ export default class Column {
     Wrapper.appendChild(Head);
     Wrapper.appendChild(Body);
 
-    this.api.listeners.on(Spot, 'click', () => {
-      tippy(Spot, this.drawSpotSelector(part, ActiveIcon))
-    }, false);
+    this.api.listeners.on(Title, "input", e => {
+      this.data[dataIndex].title = Title.innerHTML;
+    });
+
+    this.api.listeners.on(Body, "input", e => {
+      this.data[dataIndex].content = Body.innerHTML;
+    });
+
+    this.api.listeners.on(
+      Spot,
+      "click",
+      () => {
+        tippy(Spot, this.drawSpotSelector(part, ActiveIcon));
+      },
+      false
+    );
 
     return Wrapper;
   }
@@ -163,43 +186,51 @@ export default class Column {
    * @private
    */
   drawSpotSelector(part, activeIcon) {
-    const Wrapper = make('div', [this.CSS.selector])
+    const Wrapper = make("div", [this.CSS.selector]);
+    const dataIndex = part === "left" ? 0 : 1;
 
-    Icons.forEach(iconItem => { 
-      const Dot = make('div', [this.CSS.selectDot], {
+    Icons.forEach(iconItem => {
+      const Dot = make("div", [this.CSS.selectDot], {
         innerHTML: iconItem.icon
-      })
+      });
 
-      Wrapper.appendChild(Dot)
+      Wrapper.appendChild(Dot);
 
       if (activeIcon.name === iconItem.name) {
-        Dot.classList.add(this.CSS.activeDot)
+        Dot.classList.add(this.CSS.activeDot);
       }
 
-      this.api.listeners.on(Dot, 'click', () => {
-        Wrapper.childNodes.forEach(item => {
-          item.classList.remove(this.CSS.activeDot)
-        })
+      this.api.listeners.on(
+        Dot,
+        "click",
+        () => {
+          Wrapper.childNodes.forEach(item => {
+            item.classList.remove(this.CSS.activeDot);
+          });
 
-        const Column = part === 'left' ? this.ColumnLeft: this.ColumnRight
+          const Column = part === "left" ? this.ColumnLeft : this.ColumnRight;
 
-        // console.log("ColumnLeft: ", this.ColumnRight)
-        const ColumnIcon = Column.getElementsByClassName(this.CSS.columnSpot) 
-        ColumnIcon[0].innerHTML = Dot.innerHTML
+          // console.log("ColumnLeft: ", this.ColumnRight)
+          const ColumnIcon = Column.getElementsByClassName(this.CSS.columnSpot);
+          ColumnIcon[0].innerHTML = Dot.innerHTML;
 
-        Dot.classList.add(this.CSS.activeDot)
-      }, false);
-    })
-  
+          this.data[dataIndex].type = iconItem.name;
+
+          Dot.classList.add(this.CSS.activeDot);
+        },
+        false
+      );
+    });
+
     return {
       content: Wrapper,
-      theme: 'light',
+      theme: "light",
       // delay: 200,
       trigger: "click",
-      placement: 'bottom',
+      placement: "bottom",
       // allowing you to hover over and click inside them.
-      interactive: true,
-    }
+      interactive: true
+    };
   }
 
   /**
@@ -218,6 +249,7 @@ export default class Column {
    * @public
    */
   save(toolsContent) {
-    return {};
+    console.log("save: ", this.data);
+    return this.data;
   }
 }
