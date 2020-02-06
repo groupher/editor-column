@@ -1,6 +1,6 @@
 {
   "name": "@groupher/editor-column",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "codex editor",
     "column-tool",
@@ -35,7 +35,7 @@
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
-    "@groupher/editor-utils": "0.1.1",
+    "@groupher/editor-utils": "0.1.13",
     "svg-inline-loader": "^0.8.0",
     "tippy.js": "^5.1.2"
   }

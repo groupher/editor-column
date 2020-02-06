@@ -1,7 +1,8 @@
-import { make } from "@groupher/editor-utils";
+import { make, isEmptyObj } from "@groupher/editor-utils";
 /**
  * Build styles
  */
+
 import css from "./index.css";
 import tippy, { hideAll } from "tippy.js";
 import "tippy.js/dist/tippy.css";
@@ -80,18 +81,20 @@ export default class Column {
       activeDot: "cdx-color-selector-dot--active"
     };
 
-    const defaultColumnData = {
-      type: "flag",
-      title: "",
-      content: ""
-    };
+    const defaultColumnData = [
+      {
+        type: "flag",
+        title: "",
+        content: ""
+      },
+      {
+        type: "faq",
+        title: "",
+        content: ""
+      }
+    ];
 
-    this.data = data;
-
-    // NOTE:  maybe only one column
-    if (!this.data[1]) {
-      this.data[1] = defaultColumnData;
-    }
+    this.data = !isEmptyObj(data) ? data : defaultColumnData;
 
     this.TitleInput = null;
     this.CollapseContent = null;
@@ -109,10 +112,12 @@ export default class Column {
     const InnerWrapper = make("DIV", [this.CSS.innerWrapper]);
 
     this.ColumnLeft = this.drawColumn("left");
-    this.ColumnRight = this.drawColumn("right");
-
     InnerWrapper.appendChild(this.ColumnLeft);
-    InnerWrapper.appendChild(this.ColumnRight);
+
+    if (this.data[1]) {
+      this.ColumnRight = this.drawColumn("right");
+      InnerWrapper.appendChild(this.ColumnRight);
+    }
 
     Wrapper.appendChild(InnerWrapper);
 
@@ -246,7 +251,6 @@ export default class Column {
    * @public
    */
   save(toolsContent) {
-    console.log("save: ", this.data);
     return this.data;
   }
 }
