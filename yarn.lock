@@ -526,9 +526,12 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@groupher/editor-utils@0.1.13":
-  version "0.1.13"
-  resolved "https://registry.npm.taobao.org/@groupher/editor-utils/download/@groupher/editor-utils-0.1.13.tgz#fe2ee07b1262c1e9c8b73537e65625571645e612"
+"@groupher/editor-utils@0.1.53":
+  version "0.1.53"
+  resolved "https://registry.npm.taobao.org/@groupher/editor-utils/download/@groupher/editor-utils-0.1.53.tgz#ef235ee732892220bc0167b5790f29f9a115933b"
+  dependencies:
+    debug "^4.1.1"
+    pubsub-js "^1.8.0"
 
 "@webassemblyjs/ast@1.8.3":
   version "1.8.3"
@@ -1726,7 +1729,7 @@ debug@^2.1.2, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@^4.1.0:
+debug@^4.1.0, debug@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
   dependencies:
@@ -3225,6 +3228,10 @@ public-encrypt@^4.0.0:
     parse-asn1 "^5.0.0"
     randombytes "^2.0.1"
     safe-buffer "^5.1.2"
+
+pubsub-js@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.npm.taobao.org/pubsub-js/download/pubsub-js-1.8.0.tgz#e2b523a030140a3d6e080735a48850a9622ed20a"
 
 pump@^2.0.0:
   version "2.0.1"

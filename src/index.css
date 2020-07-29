@@ -13,7 +13,7 @@
 .cdx-column-part {
   display: flex;
   flex-direction: column;
-  width: 48%;
+  width: 44%;
 }
 
 .cdx-column-head {
@@ -28,14 +28,12 @@
   align-items: center;
   width: 25px;
   height: 25px;
-  border-radius: 5px;
-  background-image: linear-gradient(#75979c, #507479);
-  margin-right: 12px;
+  margin-right: 5px;
   cursor: pointer;
 }
 
 .cdx-column-spot svg {
-  fill: white;
+  fill: grey;
   display: block;
   height: 18px;
 }
@@ -53,17 +51,16 @@
 }
 
 .cdx-column-body {
-  font-size: 14px;
-  color: #a9adb5;
-  padding-left: 36px;
+  font-size: 15px;
+  line-height: 1.5em;
+  color: grey;
+  padding-left: 5px;
 }
 
 .cdx-column-title[placeholder]:empty:before,
 .cdx-column-body[placeholder]:empty:before {
   content: attr(placeholder);
   color: grey;
-  color: grey;
-  font-style: italic;
 }
 
 .cdx-color-selector {
@@ -99,16 +96,14 @@
 }
 
 .cdx-color-selector-dot--active {
-  background-image: linear-gradient(#75979c, #507479);
   border-radius: 5px;
 }
 
 .cdx-color-selector-dot--active:hover {
-  background-image: linear-gradient(#75979c, #507479);
 }
 
 .cdx-color-selector-dot--active svg {
-  fill: white;
+  fill: grey;
   width: 16px;
   height: 16px;
 }
