@@ -23,12 +23,21 @@
 }
 
 .cdx-column-spot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #4f44bd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  background-image: linear-gradient(#75979c, #507479);
   margin-right: 12px;
   cursor: pointer;
+}
+
+.cdx-column-spot svg {
+  fill: white;
+  display: block;
+  height: 18px;
 }
 
 .cdx-column-title,
@@ -46,7 +55,7 @@
 .cdx-column-body {
   font-size: 14px;
   color: #a9adb5;
-  padding-left: 25px;
+  padding-left: 36px;
 }
 
 .cdx-column-title[placeholder]:empty:before,
@@ -59,49 +68,51 @@
 
 .cdx-color-selector {
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  padding-top: 10px;
   align-items: center;
-  width: 100px;
-  height: 30px;
+  width: 200px;
+  height: auto;
 }
 
 .cdx-color-selector-dot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  transition: all .2s;
+  width: 22px;
+  height: 22px;
+  transition: all 0.2s;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+.cdx-color-selector-dot:hover {
+  background: #f1f1f1;
   cursor: pointer;
 }
 
+.cdx-color-selector-dot svg {
+  fill: grey;
+  width: 20px;
+  height: 20px;
+}
+
 .cdx-color-selector-dot--active {
-  position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 10px;
-    height: 10px;
+  background-image: linear-gradient(#75979c, #507479);
+  border-radius: 5px;
+}
+
+.cdx-color-selector-dot--active:hover {
+  background-image: linear-gradient(#75979c, #507479);
 }
 
 .cdx-color-selector-dot--active svg {
   fill: white;
+  width: 16px;
+  height: 16px;
 }
 
 .cdx-color-selector-dot:hover {
   cursor: pointer !important;
-}
-
-.cdx-color-selector-dot--primary {
-  background-color: #5049BA;
-}
-
-.cdx-color-selector-dot--red {
-  background-color: tomato;
-}
-
-.cdx-color-selector-dot--warning {
-  background-color: orange;
-}
-
-.cdx-color-selector-dot--green {
-  background-color: yellowgreen;
 }
